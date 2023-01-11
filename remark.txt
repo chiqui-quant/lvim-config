@@ -1,0 +1,2 @@
+lvim in AppData/Local
+lunarvim in AppData/Roaming
