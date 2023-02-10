@@ -30,16 +30,6 @@ faster.nvim-faster-nvim	faster.nvim.md	/# faster.nvim
 faster.nvim-inspiration	faster.nvim.md	/# Inspiration
 faster.nvim-screenshot	faster.nvim.md	/# Screenshot
 faster.nvim-usage	faster.nvim.md	/# Usage
-friendly-snippets-add-snippets-from-a-framework-to-a-filetype	friendly-snippets.md	/### Add snippets from a framework to a filetype.
-friendly-snippets-credits	friendly-snippets.md	/## Credits
-friendly-snippets-friendly-snippets	friendly-snippets.md	/# Friendly Snippets
-friendly-snippets-html	friendly-snippets.md	/#### HTML
-friendly-snippets-install	friendly-snippets.md	/### Install
-friendly-snippets-js	friendly-snippets.md	/#### JS
-friendly-snippets-note-using-nvim-compe-https-github-com-hrsh7th-nvim-compe-with-vim-vsnip-https-github-com-hrsh7th-vim-vsnip-on-the-videos	friendly-snippets.md	/##### NOTE: Using \[nvim-compe\](https:\/\/github.com\/hrsh7th\/nvim-compe) with \[vim-vsnip\](https:\/\/github.com\/hrsh7th\/vim-vsnip) on the videos.
-friendly-snippets-thanks-to-all-contributors	friendly-snippets.md	/## Thanks to all contributors
-friendly-snippets-todo	friendly-snippets.md	/## TODO
-friendly-snippets-usage	friendly-snippets.md	/### Usage
 impatient.nvim-commands	impatient.nvim.md	/## Commands
 impatient.nvim-configuration	impatient.nvim.md	/## Configuration
 impatient.nvim-credit	impatient.nvim.md	/## Credit
@@ -100,13 +90,6 @@ plenary.nvim-plenary-test-harness	plenary.nvim.md	/### plenary.test_harness
 plenary.nvim-plenary-window	plenary.nvim.md	/### plenary.window
 plenary.nvim-plugins-using-this	plenary.nvim.md	/#### Plugins using this
 plenary.nvim-troubleshooting	plenary.nvim.md	/### Troubleshooting
-popup.nvim-all-known-unimplemented-vim-features-at-the-moment	popup.nvim.md	/## All known unimplemented vim features at the moment
-popup.nvim-discussion	popup.nvim.md	/## Discussion:
-popup.nvim-goals	popup.nvim.md	/## Goals
-popup.nvim-installation	popup.nvim.md	/## Installation
-popup.nvim-list-of-neovim-features-required	popup.nvim.md	/## List of Neovim Features Required:
-popup.nvim-popup-nvim	popup.nvim.md	/# popup.nvim
-popup.nvim-progress	popup.nvim.md	/## Progress
 project.nvim-api	project.nvim.md	/## API
 project.nvim-configuration	project.nvim.md	/## ⚙️ Configuration
 project.nvim-contributing	project.nvim.md	/## 🤝 Contributing
@@ -120,17 +103,6 @@ project.nvim-telescope-integration	project.nvim.md	/### Telescope Integration
 project.nvim-telescope-mappings	project.nvim.md	/#### Telescope mappings
 project.nvim-telescope-projects-picker	project.nvim.md	/#### Telescope Projects Picker
 project.nvim-vim-plug-https-github-com-junegunn-vim-plug	project.nvim.md	/### \[vim-plug\](https:\/\/github.com\/junegunn\/vim-plug)
-structlog.nvim-configure-and-retrieve	structlog.nvim.md	/#### Configure and Retrieve
-structlog.nvim-create-and-use	structlog.nvim.md	/#### Create and Use
-structlog.nvim-design	structlog.nvim.md	/### Design
-structlog.nvim-example	structlog.nvim.md	/### Example
-structlog.nvim-formatters	structlog.nvim.md	/#### Formatters
-structlog.nvim-installation	structlog.nvim.md	/### Installation
-structlog.nvim-processors	structlog.nvim.md	/#### Processors
-structlog.nvim-sinks	structlog.nvim.md	/#### Sinks
-structlog.nvim-structlog-nvim	structlog.nvim.md	/# structlog.nvim
-structlog.nvim-usage	structlog.nvim.md	/### Usage
-structlog.nvim-why-using-it	structlog.nvim.md	/### Why using it
 telescope-fzf-native.nvim-benchmark	telescope-fzf-native.nvim.md	/## Benchmark
 telescope-fzf-native.nvim-c-interface	telescope-fzf-native.nvim.md	/### C Interface
 telescope-fzf-native.nvim-cmake-windows-linux-macos	telescope-fzf-native.nvim.md	/### CMake (Windows, Linux, MacOS)

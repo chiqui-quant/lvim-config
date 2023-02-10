@@ -72,17 +72,228 @@ return {
   --     "\t\\item " }), i(1), d(2, rec_ls, {}),
   --   t({ "", "\\end{itemize}" }), i(0)
   -- }),
-  -- SUBSCRIPTS and SUPERSCRIPTS
-  -- SUPERSCRIPT: eg. type ' after a parenthesis () and you will have ()^{}
-  s({ trig = "([%w%)%]%}%|])'", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+
+  -- GREEKS
+  s({ trig = ",a", snippetType = "autosnippet" },
+    {
+      t("\\alpha"),
+    }),
+  s({ trig = ",b", snippetType = "autosnippet" },
+    {
+      t("\\beta"),
+    }),
+  s({ trig = ",g", snippetType = "autosnippet" },
+    {
+      t("\\gamma"),
+    }),
+  s({ trig = ",G", snippetType = "autosnippet" },
+    {
+      t("\\Gamma"),
+    }),
+  s({ trig = ",d", snippetType = "autosnippet" },
+    {
+      t("\\delta"),
+    }),
+  s({ trig = ",D", snippetType = "autosnippet" },
+    {
+      t("\\Delta"),
+    }),
+  s({ trig = ",e", snippetType = "autosnippet" },
+    {
+      t("\\epsilon"),
+    }),
+  s({ trig = ",ve", snippetType = "autosnippet" },
+    {
+      t("\\varepsilon"),
+    }),
+  s({ trig = ",z", snippetType = "autosnippet" },
+    {
+      t("\\zeta"),
+    }),
+  s({ trig = ",h", snippetType = "autosnippet" },
+    {
+      t("\\eta"),
+    }),
+  s({ trig = ",o", snippetType = "autosnippet" },
+    {
+      t("\\theta"),
+    }),
+  s({ trig = ",vo", snippetType = "autosnippet" },
+    {
+      t("\\vartheta"),
+    }),
+  s({ trig = ",O", snippetType = "autosnippet" },
+    {
+      t("\\Theta"),
+    }),
+  s({ trig = ",k", snippetType = "autosnippet" },
+    {
+      t("\\kappa"),
+    }),
+  s({ trig = ",l", snippetType = "autosnippet" },
+    {
+      t("\\lambda"),
+    }),
+  s({ trig = ",L", snippetType = "autosnippet" },
+    {
+      t("\\Lambda"),
+    }),
+  s({ trig = ",m", snippetType = "autosnippet" },
+    {
+      t("\\mu"),
+    }),
+  s({ trig = ",n", snippetType = "autosnippet" },
+    {
+      t("\\nu"),
+    }),
+  s({ trig = ",x", snippetType = "autosnippet" },
+    {
+      t("\\xi"),
+    }),
+  s({ trig = ",X", snippetType = "autosnippet" },
+    {
+      t("\\Xi"),
+    }),
+  s({ trig = ",i", snippetType = "autosnippet" },
+    {
+      t("\\pi"),
+    }),
+  s({ trig = ",I", snippetType = "autosnippet" },
+    {
+      t("\\Pi"),
+    }),
+  s({ trig = ",r", snippetType = "autosnippet" },
+    {
+      t("\\rho"),
+    }),
+  s({ trig = ",s", snippetType = "autosnippet" },
+    {
+      t("\\sigma"),
+    }),
+  s({ trig = ",S", snippetType = "autosnippet" },
+    {
+      t("\\Sigma"),
+    }),
+  s({ trig = ",t", snippetType = "autosnippet" },
+    {
+      t("\\tau"),
+    }),
+  s({ trig = "ty", snippetType = "autosnippet" },
+    {
+      t("\\tau_{y}"),
+    }),
+  s({ trig = ",f", snippetType = "autosnippet" },
+    {
+      t("\\phi"),
+    }),
+  s({ trig = ",vf", snippetType = "autosnippet" },
+    {
+      t("\\varphi"),
+    }),
+  s({ trig = ",F", snippetType = "autosnippet" },
+    {
+      t("\\Phi"),
+    }),
+  s({ trig = ",c", snippetType = "autosnippet" },
+    {
+      t("\\chi"),
+    }),
+  s({ trig = ",p", snippetType = "autosnippet" },
+    {
+      t("\\psi"),
+    }),
+  s({ trig = ",P", snippetType = "autosnippet" },
+    {
+      t("\\Psi"),
+    }),
+  s({ trig = ",w", snippetType = "autosnippet" },
+    {
+      t("\\omega"),
+    }),
+  s({ trig = ",W", snippetType = "autosnippet" },
+    {
+      t("\\Omega"),
+    }),
+
+  -- GENERAL MARKDOWN
+  -- Fenced block of code
+  -- s({ trig = "cc", snippetType = "autosnippet" },
+  --   fmta(
+  --     [[
+  --       ```<>
+  --       <>
+  --       ```
+  --     ]],
+  --     {
+  --       i(1),
+  --       d(2, get_visual),
+  --     }
+  --   ),
+  --   { condition = line_begin }
+  -- ),
+  -- Inline code
+  s({ trig = "cx", snippetType = "autosnippet" },
     fmta(
-      "<>^{<>}",
+      [[
+        `<>`
+      ]],
+      {
+        i(1),
+      }
+    ),
+    { condition = line_begin }
+  ),
+  -- Inline (fenced) math, if you want to avoid conflit with words but not trigger
+  -- at the beginning of a line place ([^%a])fm
+  s({ trig = "fm", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+    fmta(
+      "<>$<>$",
       {
         f(function(_, snip) return snip.captures[1] end),
         d(1, get_visual),
       }
     )
   ),
+  -- Display math
+  s({ trig = "dm", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+    fmta(
+      "<>$$<>$$",
+      {
+        f(function(_, snip) return snip.captures[1] end),
+        d(1, get_visual),
+      }
+    )
+  ),
+  -- BOLDFACE TEXT
+  s({ trig = "tbb", snippetType = "autosnippet" },
+    fmta(
+      [[**<>**]],
+      {
+        d(1, get_visual),
+      }
+    )
+  ),
+  -- ITALIC TEXT
+  s({ trig = "tii", snippetType = "autosnippet" },
+    fmta(
+      [[*<>*]],
+      {
+        d(1, get_visual),
+      }
+    )
+  ),
+
+  -- SUBSCRIPTS and SUPERSCRIPTS
+  -- SUPERSCRIPT: eg. type ' after a parenthesis () and you will have ()^{}
+  -- s({ trig = "([%w%)%]%}%|])'", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
+  --   fmta(
+  --     "<>^{<>}",
+  --     {
+  --       f(function(_, snip) return snip.captures[1] end),
+  --       d(1, get_visual),
+  --     }
+  --   )
+  -- ),
   -- SUBSCRIPT
   s({ trig = "([%w%)%]%}]);", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
     fmta(
@@ -166,7 +377,7 @@ return {
   ),
   -- COMPLEMENT SUPERSCRIPT: xcc becomes x^{\complement}
   -- TODO:same for transpose
-  s({ trig = '([%a%)%]%}])cc', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+  s({ trig = '([%a%)%]%}])cC', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     fmta(
       "<>^{<>}",
       {
@@ -449,12 +660,12 @@ return {
     }
   ),
   -- Less than or equal
-  s({ trig = "leq", snippetType = "autosnippet" },
+  s({ trig = "leq", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     {
       t("\\leq "),
     }
   ),
-  s({ trig = "geq", snippetType = "autosnippet" },
+  s({ trig = "geq", regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     {
       t("\\geq "),
     }
@@ -474,7 +685,7 @@ return {
       t("\\dots"),
     }
   ),
-  s({ trig = "inf", snippetType = "autosnippet" },
+  s({ trig = "nff", snippetType = "autosnippet" },
     {
       t("\\inf"),
     }
@@ -576,42 +787,50 @@ return {
   ),
 
   -- Integrals
+  -- Definite integral
   s({ trig = '([^%a])dint', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     fmta(
-      [[<>\displaystyle\int_{<>}^{<>} \, d<>]],
+      [[<>\displaystyle\int_{<>}^{<>} <> \, d<>]],
       {
         f(function(_, snip) return snip.captures[1] end),
         i(1),
         i(2),
-        i(3)
+        i(3),
+        i(4)
       }
     )
   ),
-  s({ trig = '([^%a])oinf', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+  -- Integral from 0 to infinty
+  s({ trig = '([^%a])oint', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     fmta(
-      [[<>\displaystyle\int_{0}^{\infty} \, d<>]],
+      [[<>\displaystyle\int_{0}^{\infty} <> \, d<>]],
       {
         f(function(_, snip) return snip.captures[1] end),
         i(1),
+        i(2),
       }
     )
   ),
+  -- Integral from -infinity to infinity
   s({ trig = '([^%a])nfi', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     fmta(
-      [[<>\displaystyle\int_{-\infty}^{\infty} \, d<>]],
-      {
-        f(function(_, snip) return snip.captures[1] end),
-        i(1),
-      }
-    )
-  ),
-  s({ trig = '([^%a])ints', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
-    fmta(
-      [[<>\displaystyle\int_{<>} \, d<>]],
+      [[<>\displaystyle\int_{-\infty}^{\infty} <> \, d<>]],
       {
         f(function(_, snip) return snip.captures[1] end),
         i(1),
         i(2),
+      }
+    )
+  ),
+  -- "Set integral", i.e. integral over a set
+  s({ trig = '([^%a])sint', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+    fmta(
+      [[<>\displaystyle\int_{<>} <> \, d<>]],
+      {
+        f(function(_, snip) return snip.captures[1] end),
+        i(1),
+        i(2),
+        i(3),
       }
     )
   ),
@@ -621,8 +840,9 @@ return {
   ls.parser.parse_snippet({ trig = "tayl", wordTrig = true, snippetType = "autosnippet" },
     "${0:f}(${1:x} + ${2:h}) = ${0:f}(${1:x}) + ${0:f}'(${1:x})${2:h} + ${0:f}''(${1:x}) \\frac{${2:h}^{2}}{2!} + \\dots$3"),
   -- ls.parser.parse_snippet({ trig = "mk", name = "Math" }, "\\( ${1:${TM_SELECTED_TEXT}} \\)$0"),
-  -- ls.parser.parse_snippet({trig = "", wordTrig = true, snippetType = "autosnippet"}, "")
-
-
+  ls.parser.parse_snippet({ trig = "smm", wordTrig = true, snippetType = "autosnippet" },
+    "\\displaystyle\\sum_{${1:i=1}}^{${2:n}} $3"),
+  ls.parser.parse_snippet({ trig = "stk", wordTrig = true, snippetType = "autosnippet" },
+    "\\stackrel{$1}{${2:\\to}}"),
 
 }

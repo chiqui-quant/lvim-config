@@ -33,6 +33,13 @@ vim.g.clipboard = {
 -- vim.opt.tabstop = 2
 -- vim.opt.relativenumber = true
 
+-- This should make nvim a bit faster
+vim.opt.timeoutlen = 500
+vim.opt.history = 5 -- number of items to remember in history
+vim.opt.ttyfast = true
+vim.opt.lazyredraw = true
+-- vim.opt.textwidth = 80 -- new line after 80th character
+
 -- general
 lvim.log.level = "info"
 lvim.format_on_save = {
@@ -45,13 +52,17 @@ lvim.format_on_save = {
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<S-G>"] = "<S-G>zz"
 lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 lvim.builtin.terminal.open_mapping = "<c-t>"
 lvim.keys.normal_mode["<A-a>"] = ":Alpha<CR>"
 lvim.keys.normal_mode["<leader>t"] = ":Telescope<CR>"
 lvim.keys.normal_mode["<A-l>"] = ":Lazy<CR>"
-lvim.keys.normal_mode["<A-z>"] = ":ZenMode<CR>:PencilToggle<CR>"
+lvim.keys.normal_mode["<A-f>"] = ":Telescope oldfiles<CR>"
+lvim.keys.normal_mode["<A-z>"] = ":ZenMode<CR>:PencilSoft<CR>"
+lvim.keys.normal_mode["<A-t>"] = ":set textwidth=80<CR>"
+lvim.keys.normal_mode["<A-m>"] = ":lua require('cmp').setup { enabled = false }<CR>"
 -- lvim.keys.insert_mode["jk"] = "<Plug>luasnip-expand-or-jump"
 
 -- -- Use which-key to add extra bindings with the leader-key prefix
