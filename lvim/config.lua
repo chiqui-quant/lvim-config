@@ -63,9 +63,10 @@ lvim.keys.normal_mode["<A-l>"] = ":Lazy<CR>"
 lvim.keys.normal_mode["<A-f>"] = ":Telescope oldfiles<CR>"
 lvim.keys.normal_mode["<A-z>"] = ":ZenMode<CR>:PencilSoft<CR>"
 lvim.keys.normal_mode["<A-t>"] = ":set textwidth=80<CR>"
-lvim.keys.normal_mode["<A-m>"] = ":lua require('cmp').setup { enabled = false }<CR>" -- disable completion
 lvim.keys.normal_mode["<C-n>"] = "<CMD>ene!<CR>" -- new buffer
 -- lvim.keys.insert_mode["jk"] = "<Plug>luasnip-expand-or-jump"
+-- disable completion and load LuaSnip manually with Lazy
+lvim.keys.normal_mode["<A-m>"] = ":lua require('cmp').setup { enabled = false }<CR>:Lazy load LuaSnip<CR>"
 
 -- -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }

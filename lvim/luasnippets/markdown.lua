@@ -24,9 +24,8 @@ local postfix = require("luasnip.extras.postfix").postfix
 local types = require("luasnip.util.types")
 local parse = require("luasnip.util.parser").parse_snippet
 
--- Important: remember to exit snippets with trigger, otherwise
--- all tabstops will be kept in memory and that can cause
--- performance issues.
+-- Note: some triggers may have cause conflict, but since I manually load LuaSnip with lazy=true in
+-- the settings and using a shortcut, it is not a big problem for me.
 
 -- This is the get_visual function. Summary: If `SELECT_RAW` is populated
 -- with a visual selection, the function returns an insert node whose initial
@@ -39,8 +38,6 @@ local function get_visual(args, parent)
   end
 end
 
-local ls = require("luasnip")
-
 -- Math context detection (requires vimtex plugin)
 -- Note: I tried both options but it was expensive in terms of performance for my pc
 -- So I opted for more unusual triggers that can be used globally in the markdown file
@@ -51,16 +48,46 @@ local ls = require("luasnip")
 -- tex.in_text = function() return not tex.in_mathzone() end
 
 -- Suggested: knowledge of regular expressions makes life much easier to understand what happens here
+-- Useful site for luapatterns: https://gitspartv.github.io/lua-patterns/
 -- Return snippet tables
 -- Note: I commented all the snippets with the LuaSnip format and prefered to parse my latex-suite snippets
 return {
+
   -- _{0} and other digits after letters and closing delimiters i.e. | ) ] } but not in numbers like 100
-  s({ trig = '([%a%|%)%]%}])(%d)', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+  -- s({ trig = '([%a%|%)%]%}])(%d)', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
+  --   fmta(
+  --     "<>_{<>}",
+  --     {
+  --       f(function(_, snip) return snip.captures[1] end),
+  --       f(function(_, snip) return snip.captures[2] end),
+  --     }
+  --   )
+  -- ),
+
+  -- division (TODO: make it work a la Gilles Castel)
+  s({ trig = "([%w])dv", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
     fmta(
-      "<>_{<>}",
+      "\\frac{<>}{<>}",
       {
         f(function(_, snip) return snip.captures[1] end),
-        f(function(_, snip) return snip.captures[2] end),
+        d(1, get_visual),
+      }
+    )
+  ),
+
+  -- Division a la Gilles Castel, i.e. (1 + 2 (\beta + 1))dv becomes \frac{1+2(\beta+1)}{}
+  -- Lua pattern from https://stackoverflow.com/questions/42741271/pattern-not-matching
+  -- TODO: may be bit buggy sometimes it catches stuff before the first (
+  -- but idk I still need to check it
+  s({ trig = "%((.*)%)dv", wordTrig = false, regTrig = true,
+    snippetType = "autosnippet" },
+    fmta(
+      "\\frac{<>}{<>}",
+      {
+        -- f(function(_, snip) return snip.captures[1] end),
+        -- f(function(arg, snip) return arg[1] end, 1),
+        f(function(_, snip) return snip.captures[1] end),
+        d(1, get_visual),
       }
     )
   ),
@@ -87,6 +114,7 @@ return {
     )
   ),
   -- comfortable typing of functions: e.g. fof -> f()
+  -- TODO: implement better, conficts with words like professor
   s({ trig = '(%a)of', regTrig = true, wordTrig = false, snippetType = "autosnippet" },
     fmta(
       "<>(<>)",
@@ -124,6 +152,7 @@ return {
   ls.parser.parse_snippet({ trig = "qa", wordTrig = true, snippetType = "autosnippet" }, "\\quad "),
 
   -- Greeks (maybe figure out a better solution in the future)
+  ls.parser.parse_snippet({ trig = "muu", wordTrig = true, snippetType = "autosnippet" }, "\\mu"),
   ls.parser.parse_snippet({ trig = "om", wordTrig = true, snippetType = "autosnippet" }, "\\omega"),
   ls.parser.parse_snippet({ trig = "Om", wordTrig = true, snippetType = "autosnippet" }, "\\Omega"),
   ls.parser.parse_snippet({ trig = "bt", wordTrig = true, snippetType = "autosnippet" }, "\\beta"),
@@ -150,8 +179,10 @@ return {
   ls.parser.parse_snippet({ trig = "--", wordTrig = false, snippetType = "autosnippet" }, "^{-}$1"),
   ls.parser.parse_snippet({ trig = "++", wordTrig = false, snippetType = "autosnippet" }, "^{+}$1"),
   ls.parser.parse_snippet({ trig = "TT", wordTrig = false, snippetType = "autosnippet" }, "^{\\mathrm{T}}$1"),
-  ls.parser.parse_snippet({ trig = "fr", wordTrig = true, snippetType = "autosnippet" }, "\\frac{$1}{$2}$3"),
+  -- ls.parser.parse_snippet({ trig = "fr", wordTrig = true, snippetType = "autosnippet" }, "\\frac{$1}{$2}$3"),
+  ls.parser.parse_snippet({ trig = "dvs", wordTrig = true, snippetType = "autosnippet" }, "\\frac{$1}{$2}$3"),
   ls.parser.parse_snippet({ trig = "ee", wordTrig = true, snippetType = "autosnippet" }, "e^{$1}$2"),
+  ls.parser.parse_snippet({ trig = "logg", wordTrig = true, snippetType = "autosnippet" }, "\\log "),
   ls.parser.parse_snippet({ trig = "cj", wordTrig = false, snippetType = "autosnippet" }, "^{*}"),
   ls.parser.parse_snippet({ trig = "cv", wordTrig = false, snippetType = "autosnippet" }, "*"),
 
@@ -163,7 +194,7 @@ return {
   -- Symbols
   ls.parser.parse_snippet({ trig = "oo", wordTrig = true, snippetType = "autosnippet" }, "\\infty"),
   ls.parser.parse_snippet({ trig = "poo", wordTrig = true, snippetType = "autosnippet" }, "+\\infty"),
-  ls.parser.parse_snippet({ trig = "mn", wordTrig = true, snippetType = "autosnippet" }, "-"), -- more comfortable minus, but for the plus it's ok, "pl" may conflict
+  ls.parser.parse_snippet({ trig = "mn", wordTrig = false, snippetType = "autosnippet" }, "-"), -- more comfortable minus, but for the plus it's ok, "pl" may conflict
   ls.parser.parse_snippet({ trig = "xn", wordTrig = true, snippetType = "autosnippet" }, "x \\in $1"),
   ls.parser.parse_snippet({ trig = "x \\in n", wordTrig = true, snippetType = "autosnippet" }, "x_{n}"),
   ls.parser.parse_snippet({ trig = "inn", wordTrig = true, snippetType = "autosnippet" }, "\\in "),
@@ -176,11 +207,11 @@ return {
     "\\displaystyle\\prod_{i=1}^{n}"), -- check if goes well
   ls.parser.parse_snippet({ trig = "pm", wordTrig = true, snippetType = "autosnippet" }, "\\pm"),
   ls.parser.parse_snippet({ trig = "...", wordTrig = true, snippetType = "autosnippet" }, "\\ldots"),
-  ls.parser.parse_snippet({ trig = "geq", wordTrig = true, snippetType = "autosnippet" }, "\\geq "),
+  ls.parser.parse_snippet({ trig = "geq", wordTrig = false, snippetType = "autosnippet" }, "\\geq "),
   ls.parser.parse_snippet({ trig = "leq", wordTrig = true, snippetType = "autosnippet" }, "\\leq "),
   ls.parser.parse_snippet({ trig = "frl", wordTrig = true, snippetType = "autosnippet" }, "\\forall \\ "),
   ls.parser.parse_snippet({ trig = "exs", wordTrig = true, snippetType = "autosnippet" }, "\\exists \\ "),
-  ls.parser.parse_snippet({ trig = "simm", wordTrig = true, snippetType = "autosnippet" }, "\\sim "),
+  ls.parser.parse_snippet({ trig = "simm", wordTrig = false, snippetType = "autosnippet" }, "\\sim "),
   ls.parser.parse_snippet({ trig = "nbl", wordTrig = true, snippetType = "autosnippet" }, "\\nabla "),
   ls.parser.parse_snippet({ trig = "tm", wordTrig = true, snippetType = "autosnippet" }, "\\times "),
   ls.parser.parse_snippet({ trig = "cd", wordTrig = true, snippetType = "autosnippet" }, "\\cdot "),
@@ -372,11 +403,13 @@ return {
   ls.parser.parse_snippet({ trig = "tit", wordTrig = true, snippetType = "autosnippet" }, "t \\in T"),
   ls.parser.parse_snippet({ trig = "nin", wordTrig = true, snippetType = "autosnippet" }, "n \\in \\mathbb{N}"),
 
-  -- Probability distributions
+  -- Probability densities
   ls.parser.parse_snippet({ trig = "gss", wordTrig = true, snippetType = "autosnippet" },
     "\\frac{1}{\\sigma\\sqrt{ 2\\pi }}\\exp \\left\\{ -\\frac{(x-\\mu)^{2}}{2\\sigma^{2}} \\right\\}"),
 
   -- Special cases to deal with conflicts
   ls.parser.parse_snippet({ trig = "f_{n}t", wordTrig = true, snippetType = "autosnippet" }, "<+\\infty"),
+
+
 
 }
